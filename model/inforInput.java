@@ -69,4 +69,22 @@ public class inforInput {
         } while (!check.validISBN(ISBN_String));
         return ISBN_String;
     }
+
+    public String PublisherInput() {
+        String Publisher_String = "";
+        do {
+            Publisher_String = sc.nextLine();
+            System.out.println("Invalid input!!! ");
+        } while (!check.validPublisherID(Publisher_String));
+        return Publisher_String;
+    }
+
+    public int PriceInput() {
+        int price;
+        do {
+            price = sc.nextInt();
+            System.out.println("Invalid input!!! ");
+        } while (!check.validPrice(price));
+        return price;
+    }
 }

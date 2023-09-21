@@ -24,4 +24,12 @@ public class Validator {
     public boolean validStaffID(String StaffID_String) {
         return true;
     }
+
+    public boolean validPublisherID(String PublisherID_String) {
+        return true;
+    }
+
+    public boolean validPrice(int Price) {
+        return true;
+    }
 }
