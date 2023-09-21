@@ -34,7 +34,14 @@ public class UPDATE {
         System.out.print("Enter DOB: ");
         DOB = input.DOBInput();
         //
-        // UPDATE
+        //
+        /*
+         * UPDATE Users
+         * SET UserID = 'SE181670', Name = 'Luffy', Email = 'luffy@gmail.com', Phone =
+         * '0914749064', Address = 'Quy Nhon', DOB ='2004-07-01', username = 'Luffy',
+         * pass ='123'
+         * WHERE UserID = 'SE181670' ;
+         */
         //
     }
 }

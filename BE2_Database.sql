@@ -110,7 +110,14 @@ WHEN EXISTS (SELECT * FROM Reports WHERE ISBN = Books.ISBN) = 1 THEN 'Not Availa
 END AS isBorrow 
 FROM Books WHERE ISBN = 'ISBN 000001' ORDER BY ISBN;
 -- 
-SELECT * FROM Books WHERE Author = 'To Hoai' ORDER BY ISBN; -- author
+   SELECT ISBN, Title, Edition, Author, Category, Price,
+         CASE
+         WHEN EXISTS (SELECT * FROM Reports WHERE ISBN = Books.ISBN) = 0 THEN
+          'Available'
+          WHEN EXISTS (SELECT * FROM Reports WHERE ISBN = Books.ISBN) = 1 THEN 'Not
+          Available'
+          END AS isBorrow
+          FROM Books WHERE Author = 'To Hoai' ORDER BY ISBN; -- author
 SELECT ISBN, Title, Edition, Author, Category, Price,
 CASE  
 WHEN EXISTS (SELECT * FROM Reports WHERE ISBN = Books.ISBN) = 0 THEN 'Available'
