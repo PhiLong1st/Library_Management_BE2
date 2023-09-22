@@ -22,7 +22,6 @@ public class inforInput {
                     kt = false;
                 }
             } catch (java.util.InputMismatchException e) {
-                // TODO: handle exception
                 kt = false;
                 System.out.println("\nWrong data type of choice!");
                 sc.nextLine();
@@ -39,6 +38,26 @@ public class inforInput {
     public String addressInput() {
         String addressString = sc.nextLine();
         return addressString;
+    }
+
+    public String TitleInput() {
+        String TitleString = sc.nextLine();
+        return TitleString;
+    }
+
+    public String EditionInput() {
+        String EditionString = sc.nextLine();
+        return EditionString;
+    }
+
+    public String AuthorInput() {
+        String AuthorString = sc.nextLine();
+        return AuthorString;
+    }
+
+    public String CategoryInput() {
+        String CategoryString = sc.nextLine();
+        return CategoryString;
     }
 
     public String UserIDInput() {
@@ -135,15 +154,19 @@ public class inforInput {
     }
 
     public int PriceInput() {
-        int price;
-        boolean valid = true;
+        int price = 0;
+        boolean kt;
         do {
-            price = sc.nextInt();
-            valid = check.validPrice(price);
-            if (!valid) {
-                System.out.println("Invalid Price Input!!! ");
+            try {
+                kt = true;
+                price = sc.nextInt();
+                sc.nextLine();
+            } catch (java.util.InputMismatchException e) {
+                kt = false;
+                System.out.println("\nWrong data type of price!");
+                sc.nextLine();
             }
-        } while (!valid);
+        } while (!kt);
         return price;
     }
 }

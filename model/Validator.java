@@ -70,14 +70,6 @@ public class Validator {
         return check;
     }
 
-    public boolean validISBN(String ISBN_String) {
-        return true;
-    }
-
-    public boolean validPublisherID(String PublisherID_String) {
-        return true;
-    }
-
     public boolean validUserID(String UserID_String) {
         Pattern UserID_Pattern = Pattern.compile("\\p{Alpha}{2}\\d{6}");
         Matcher matcher = UserID_Pattern.matcher(UserID_String);
@@ -90,13 +82,15 @@ public class Validator {
         return matcher.matches();
     }
 
-    public boolean validPrice(int Price) {
-        boolean check = true;
-        try {
-            check = true;
-        } catch (java.util.InputMismatchException e) {
-            check = false;
-        }
-        return check;
+    public boolean validISBN(String ISBN_String) {
+        Pattern ISBN_Pattern = Pattern.compile("^ISBN\\d{6}$");
+        Matcher matcher = ISBN_Pattern.matcher(ISBN_String);
+        return matcher.matches();
+    }
+
+    public boolean validPublisherID(String PublisherID_String) {
+        Pattern PublisherID_Pattern = Pattern.compile("^NXB\\d{3}$");
+        Matcher matcher = PublisherID_Pattern.matcher(PublisherID_String);
+        return matcher.matches();
     }
 }
