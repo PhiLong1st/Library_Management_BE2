@@ -5,6 +5,24 @@ package controller;
 
 public class SELECT {
 
+    public boolean isBorrowingBook(String UserID_String) {
+        boolean isBorrow = false;
+
+        return isBorrow;
+    }
+
+    public boolean isPublisingBook(String PublisherID_String) {
+        boolean isBorrow = false;
+
+        return isBorrow;
+    }
+
+    public boolean isBorrowed(String ISBN_String) {
+        boolean isBorrowed = false;
+
+        return isBorrowed;
+    }
+
     public boolean Username_isExist(String usernameString, String typeString) {
         boolean exists = true;// typeString (admin/user)
         // SELECT * FROM typeString WHERE username = 'usernameString';
@@ -16,6 +34,22 @@ public class SELECT {
     public boolean UserID_isExist(String usernameString) {
         boolean exists = true;
         // SELECT * FROM Users WHERE UserID = 'usernameString';
+
+        //
+        return exists;
+    }
+
+    public boolean ISBN_isExist(String ISBN_String) {
+        boolean exists = true;
+        // SELECT * FROM Books WHERE ISBN = 'ISBN_String';
+
+        //
+        return exists;
+    }
+
+    public boolean PublisherID_isExist(String PublisherID_String) {
+        boolean exists = true;
+        // SELECT * FROM Publishers WHERE PublisherID = 'PublisherID_String';
 
         //
         return exists;
@@ -145,5 +179,35 @@ public class SELECT {
          * WHERE Reports.UserID = 'SE181672'
          * ORDER BY Books.ISBN;
          */
+    }
+
+    public void List_student_borrowing_book() {
+        System.out.println("List_student_borrowing_book");
+        /*
+         * SELECT Users.UserID, Users.Name, Users.Email, Users.Phone, Books.ISBN,
+         * Books.Title, Reports.date_issue,Reports.date_return,
+         * CASE
+         * WHEN Reports.date_return < CURDATE() THEN 'Late'
+         * WHEN Reports.date_return >= CURDATE() THEN 'NOT LATE'
+         * END AS IsReturnLate,
+         * CASE
+         * WHEN Reports.date_return < CURDATE() THEN 1000* DATEDIFF(
+         * Reports.date_return,CURDATE()) + Books.Price
+         * WHEN Reports.date_return >= CURDATE() THEN Books.Price
+         * END AS Total_Fee
+         * FROM Users
+         * INNER JOIN Reports ON Users.UserID = Reports.UserID
+         * INNER JOIN Books ON Reports.ISBN = Books.ISBN
+         * ORDER BY Users.UserID;
+         */
+
+    }
+
+    public void SearchUser(String UserID_String) {
+        System.out.println(UserID_String + "SearchUser");
+    }
+
+    public void SearchPublisher(String PublisherID_String) {
+        System.out.println(PublisherID_String + "SearchPublisher");
     }
 }

@@ -10,21 +10,10 @@ public class Menu {
     inforInput input = new inforInput();
     SELECT select = new SELECT();
     UPDATE update = new UPDATE();
+    TOOL tool = new TOOL();
+    Staff_Menu staff_menu = new Staff_Menu();
 
     // tool
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
-
-    public static void delay(int second) {
-        try {
-            Thread.sleep(second);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-    }
-
     //
     public boolean Login() {
         String username, pass, type;
@@ -32,7 +21,7 @@ public class Menu {
         boolean isExists;
         do {
             // isExists = true;
-            clearScreen();
+            tool.clearScreen();
             System.out.print("\n\n\t\t\t\t\tLIBRARY MANAGEMENT SYSTEM\n");
             System.out.print("\t\t\t\t\t-------------------------\n");
             System.out.print("\t\t\t\t\t\t  LOGIN\n");
@@ -44,16 +33,15 @@ public class Menu {
             System.out.print("\t\t\t\t\tAdmin/User: ");
             type = sc.nextLine();
             isExists = check.checkAccount(username, pass, type);
-            delay(2000);
+            tool.delay(2000);
         } while (!isExists);
         return type.equalsIgnoreCase("admin");
     }
 
     public void SearchBookPage() {
         int choice;
-        SELECT SearchBook = new SELECT();
         do {
-            clearScreen();
+            tool.clearScreen();
             System.out.print("\n\n\t\t\t\t\tLIBRARY MANAGEMENT SYSTEM\n");
             System.out.print("\t\t\t\t\t-------------------------\n");
             System.out.print("\t\t\t\t\t\t  USER\n");
@@ -68,28 +56,28 @@ public class Menu {
             choice = input.getChoice(1, 6);
             switch (choice) {
                 case 1: {
-                    SearchBook.SearchBook_ISBN();
-                    delay(1000);
+                    select.SearchBook_ISBN();
+                    tool.delay(1000);
                     break;
                 }
                 case 2: {
-                    SearchBook.SearchBook_Author();
-                    delay(1000);
+                    select.SearchBook_Author();
+                    tool.delay(1000);
                     break;
                 }
                 case 3: {
-                    SearchBook.SearchBook_Category();
-                    delay(1000);
+                    select.SearchBook_Category();
+                    tool.delay(1000);
                     break;
                 }
                 case 4: {
-                    SearchBook.SearchBook_Publisher();
-                    delay(1000);
+                    select.SearchBook_Publisher();
+                    tool.delay(1000);
                     break;
                 }
                 case 5: {
-                    SearchBook.SearchBook_Title();
-                    delay(1000);
+                    select.SearchBook_Title();
+                    tool.delay(1000);
                     break;
                 }
             }
@@ -100,7 +88,7 @@ public class Menu {
     public void UserHomePage() {
         int choice;
         do {
-            clearScreen();
+            tool.clearScreen();
             System.out.print("\n\n\t\t\t\t\tLIBRARY MANAGEMENT SYSTEM\n");
             System.out.print("\t\t\t\t\t-------------------------\n");
             System.out.print("\t\t\t\t\t\t  USER\n");
@@ -129,12 +117,12 @@ public class Menu {
                     } while (!exist);
                     update.Update_User(UserID);
                     System.out.println("Update successfully!!!");
-                    delay(1000);
+                    tool.delay(1000);
                     break;
                 }
                 case 3: {
                     select.List_borrowing_book();
-                    delay(1000);
+                    tool.delay(1000);
                     break;
                 }
             }
@@ -143,10 +131,53 @@ public class Menu {
     }
 
     public void StaffHomePage() {
-        clearScreen();
-        System.out.print("\n\n\t\t\t\t\tLIBRARY MANAGEMENT SYSTEM\n");
-        System.out.print("\t\t\t\t\t-------------------------\n");
-        System.out.print("\t\t\t\t\t\t  STAFF\n");
-        System.out.print("\t\t\t\t\t-------------------------\n");
+        int choice;
+        do {
+            tool.clearScreen();
+            System.out.print("\n\n\t\t\t\t\tLIBRARY MANAGEMENT SYSTEM\n");
+            System.out.print("\t\t\t\t\t-------------------------\n");
+            System.out.print("\t\t\t\t\t\t  STAFF\n");
+            System.out.print("\t\t\t\t\t-------------------------\n");
+            System.out.print("\n\t\t\t\t\t1. Create");
+            System.out.print("\n\t\t\t\t\t2. Search ");
+            System.out.print("\n\t\t\t\t\t3. Update ");
+            System.out.print("\n\t\t\t\t\t4. Delete ");
+            System.out.print("\n\t\t\t\t\t5. List student borrowing book");
+            System.out.print("\n\t\t\t\t\t6. Borrow/Return book");
+            System.out.print("\n\t\t\t\t\t7. Exit");
+            choice = input.getChoice(1, 7);
+            switch (choice) {
+                case 1: {
+                    staff_menu.Staff_CreatePage();
+                    tool.delay(1000);
+                    break;
+                }
+                case 2: {
+                    staff_menu.Staff_SearchPage();
+                    tool.delay(1000);
+                    break;
+                }
+                case 3: {
+                    staff_menu.Staff_UpdatePage();
+                    tool.delay(1000);
+                    break;
+                }
+                case 4: {
+                    staff_menu.Staff_DeletePage();
+                    tool.delay(1000);
+                    break;
+                }
+                case 5: {
+                    select.List_student_borrowing_book();
+                    tool.delay(1000);
+                    break;
+                }
+                case 6: {
+                    staff_menu.Staff_borrow_return_book();
+                    tool.delay(1000);
+                    break;
+                }
+            }
+        } while (choice != 7);
     }
 }
