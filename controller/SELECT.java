@@ -2,8 +2,17 @@ package controller;
 
 // import model.inforInput;
 // import view.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
 
 public class SELECT {
+    String url = "jdbc:mysql://localhost:3306/Library_Management_System";
+    String database_username = "root";
+    String database_password = "123456";
 
     public boolean isBorrowingBook(String UserID_String) {
         boolean isBorrow = false;
@@ -58,6 +67,7 @@ public class SELECT {
     public boolean checkAccount(String usernameString, String passString, String typeString) {
         boolean isGood = true;
         // check account exist in table
+
         if (typeString.equalsIgnoreCase("admin")) {
             //
             /*
@@ -65,6 +75,32 @@ public class SELECT {
              * SELECT * FROM Staff WHERE username = 'Sanji' AND pass = '123';
              */
             //
+            try {
+                Connection connection = DriverManager.getConnection(url, database_username, database_password);
+                Statement statement = connection.createStatement();
+                String sql = "SELECT * FROM Staff WHERE username = ? AND pass = ?";
+                // preparedStatement.setString(1, usernameString);
+                // preparedStatement.setString(2, passString);
+                ResultSet resultSet = statement.executeQuery(sql);
+
+                // Xử lý kết quả trả về
+                if (!resultSet.next()) {
+                    System.out.println("Long");
+                }
+                while (resultSet.next()) {
+                    String id = resultSet.getString("UserID");
+                    String name = resultSet.getString("Name");
+                    System.out.println(id + " and  " + name);
+                    // ...
+                }
+
+                // Đóng tài nguyên
+                resultSet.close();
+                statement.close();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } else if (typeString.equalsIgnoreCase("user")) {
             //
             /*

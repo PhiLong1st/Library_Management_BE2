@@ -1,4 +1,4 @@
-DROP database Library_Management_System;
+ DROP database Library_Management_System;
 CREATE DATABASE Library_Management_System;
 use Library_Management_System;
 -- Create
@@ -199,3 +199,4 @@ SELECT * FROM Reports;
 UPDATE Publishers SET PublisherID = 'NXB000' 
 WHERE PublisherID = 'NXB999';
 SELECT * FROM Books;
+SELECT * FROM Users;
