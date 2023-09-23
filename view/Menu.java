@@ -56,8 +56,8 @@ public class Menu {
             choice = input.getChoice(1, 6);
             switch (choice) {
                 case 1: {
-                    select.SearchBook_ISBN();
-                    tool.delay(1000);
+                    System.out.print("Enter ISBN: ");
+                    select.SearchBook_ISBN(input.ISBNInput());
                     break;
                 }
                 case 2: {

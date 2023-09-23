@@ -32,7 +32,8 @@ public class Staff_Menu {
             choice = input.getChoice(1, 6);
             switch (choice) {
                 case 1: {
-                    select.SearchBook_ISBN();
+                    System.out.println("Enter ISBN: ");
+                    select.SearchBook_ISBN(input.ISBNInput());
                     tool.delay(1000);
                     break;
                 }

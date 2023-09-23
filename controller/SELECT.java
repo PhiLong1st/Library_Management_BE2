@@ -2,6 +2,7 @@ package controller;
 
 // import model.inforInput;
 // import view.*;
+import java.util.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,6 +14,7 @@ public class SELECT {
     String url = "jdbc:mysql://localhost:3306/Library_Management_System";
     String database_username = "root";
     String database_password = "123456";
+    Scanner sc = new Scanner(System.in);
 
     public boolean isBorrowingBook(String UserID_String) {
         boolean isBorrow = false;
@@ -35,16 +37,49 @@ public class SELECT {
     public boolean Username_isExist(String usernameString, String typeString) {
         boolean exists = true;// typeString (admin/user)
         // SELECT * FROM typeString WHERE username = 'usernameString';
-
-        //
+        if (typeString.equalsIgnoreCase("admin")) {
+            // SELECT * FROM Staff WHERE username = 'Sanji';
+            try {
+                Connection connection = DriverManager.getConnection(url, database_username, database_password);
+                Statement statement = connection.createStatement();
+                String sql = "SELECT * FROM Staff WHERE username = ?;";
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, usernameString);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (!resultSet.next()) {
+                    exists = false;
+                }
+                resultSet.close();
+                statement.close();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else if (typeString.equalsIgnoreCase("user")) {
+            // SELECT * FROM Users WHERE username = 'Luffy';
+            try {
+                Connection connection = DriverManager.getConnection(url, database_username, database_password);
+                Statement statement = connection.createStatement();
+                String sql = "SELECT * FROM Users WHERE username = ?;";
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, usernameString);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (!resultSet.next()) {
+                    exists = false;
+                }
+                resultSet.close();
+                statement.close();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         return exists;
     }
 
     public boolean UserID_isExist(String usernameString) {
         boolean exists = true;
         // SELECT * FROM Users WHERE UserID = 'usernameString';
-
-        //
         return exists;
     }
 
@@ -69,32 +104,21 @@ public class SELECT {
         // check account exist in table
 
         if (typeString.equalsIgnoreCase("admin")) {
-            //
-            /*
-             * 
-             * SELECT * FROM Staff WHERE username = 'Sanji' AND pass = '123';
-             */
-            //
+            // SELECT * FROM Staff WHERE username = 'Sanji' AND pass = '123';
             try {
                 Connection connection = DriverManager.getConnection(url, database_username, database_password);
                 Statement statement = connection.createStatement();
-                String sql = "SELECT * FROM Staff WHERE username = ? AND pass = ?";
-                // preparedStatement.setString(1, usernameString);
-                // preparedStatement.setString(2, passString);
-                ResultSet resultSet = statement.executeQuery(sql);
-
-                // Xử lý kết quả trả về
+                String sql = "SELECT * FROM Staff WHERE username = ? AND pass = ?;";
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, usernameString);
+                preparedStatement.setString(2, passString);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                // System.out.println("SQL: " + preparedStatement.toString());
+                // System.out.println("aaaa");
                 if (!resultSet.next()) {
-                    System.out.println("Long");
+                    // System.out.println("No result");
+                    isGood = false;
                 }
-                while (resultSet.next()) {
-                    String id = resultSet.getString("UserID");
-                    String name = resultSet.getString("Name");
-                    System.out.println(id + " and  " + name);
-                    // ...
-                }
-
-                // Đóng tài nguyên
                 resultSet.close();
                 statement.close();
                 connection.close();
@@ -102,11 +126,27 @@ public class SELECT {
                 e.printStackTrace();
             }
         } else if (typeString.equalsIgnoreCase("user")) {
-            //
-            /*
-             * SELECT * FROM Users WHERE username = 'Luffy' AND pass = '123';
-             */
-            //
+            // SELECT * FROM Users WHERE username = 'Luffy' AND pass = '123';
+            try {
+                Connection connection = DriverManager.getConnection(url, database_username, database_password);
+                Statement statement = connection.createStatement();
+                String sql = "SELECT * FROM Users WHERE username = ? AND pass = ?;";
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, usernameString);
+                preparedStatement.setString(2, passString);
+                // System.out.println("SQL: " + preparedStatement.toString());
+                // // System.out.println("aaaa");
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (!resultSet.next()) {
+                    // System.out.println("No result");
+                    isGood = false;
+                }
+                resultSet.close();
+                statement.close();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } else {
             System.out.println("Input \"Admin\" or \"User\"");
             return false;
@@ -124,18 +164,63 @@ public class SELECT {
         return isGood;
     }
 
-    public void SearchBook_ISBN() {
-        System.out.println("SearchBook_ISBN");
-        /*
-         * SELECT ISBN, Title, Edition, Author, Category, Price,
-         * CASE
-         * WHEN EXISTS (SELECT * FROM Reports WHERE ISBN = Books.ISBN) = 0 THEN
-         * 'Available'
-         * WHEN EXISTS (SELECT * FROM Reports WHERE ISBN = Books.ISBN) = 1 THEN 'Not
-         * Available'
-         * END AS isBorrow
-         * FROM Books WHERE ISBN = 'ISBN 000001' ORDER BY ISBN;
-         */
+    public void SearchBook_ISBN(String ISBN_String) {
+        // System.out.println("SearchBook_ISBN");
+
+        // SELECT ISBN, Title, Edition, Author, Category, Price,
+        // CASE
+        // WHEN EXISTS (SELECT * FROM Reports WHERE ISBN = Books.ISBN) = 0 THEN
+        // 'Available'
+        // WHEN EXISTS (SELECT * FROM Reports WHERE ISBN = Books.ISBN) = 1 THEN 'Not
+        // Available'
+        // END AS isBorrow
+        // FROM Books WHERE ISBN = 'ISBN 000001' ORDER BY ISBN;
+        try {
+            Connection connection = DriverManager.getConnection(url, database_username, database_password);
+            Statement statement = connection.createStatement();
+            String sql = "SELECT ISBN, Title, Edition, Author, Category, Price,\r\n" + //
+                    "          CASE\r\n" + //
+                    "          WHEN EXISTS (SELECT * FROM Reports WHERE ISBN = Books.ISBN) = 0 THEN\r\n" + //
+                    "          'Available'\r\n" + //
+                    "          WHEN EXISTS (SELECT * FROM Reports WHERE ISBN = Books.ISBN) = 1 THEN 'Not\r\n" + //
+                    "          Available'\r\n" + //
+                    "          END AS isBorrow\r\n" + //
+                    "          FROM Books WHERE ISBN = ? ORDER BY ISBN;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, ISBN_String);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (!resultSet.next()) {
+                System.out.println("No result");
+                System.out.println("\nPrint ENTER to back!\n");
+                sc.nextLine();
+            } else {
+                do {
+                    String ISBN = resultSet.getString("ISBN");
+                    String Title = resultSet.getString("Title");
+                    String Edition = resultSet.getString("Edition");
+                    String Author = resultSet.getString("Author");
+                    String Category = resultSet.getString("Category");
+                    int Price = resultSet.getInt("Price");
+                    String isBorrow = resultSet.getString("isBorrow");
+                    //
+                    System.out.println("ISBN: " + ISBN);
+                    System.out.println("Title: " + Title);
+                    System.out.println("Edition: " + Edition);
+                    System.out.println("Author: " + Author);
+                    System.out.println("Category: " + Category);
+                    System.out.println("Price: " + Price);
+                    System.out.println("isBorrow: " + isBorrow);
+                } while (resultSet.next());
+            }
+            resultSet.close();
+            statement.close();
+            connection.close();
+            System.out.println("\nPrint ENTER to back!\n");
+            //
+            sc.nextLine();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void SearchBook_Author() {
