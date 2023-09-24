@@ -1,4 +1,4 @@
---  DROP database Library_Management_System;
+ DROP database Library_Management_System;
 CREATE DATABASE Library_Management_System;
 use Library_Management_System;
 -- Create
@@ -63,6 +63,7 @@ INSERT INTO Users VALUES ('SE181672','Phi Long','philongkokodudu@gmail.com','091
 INSERT INTO Users VALUES ('SE181673','Nami','nami@gmail.com','0914749064','Quy Nhon','2004-07-01','Nami','123');
 INSERT INTO Users VALUES ('SE181674','Usopp','usopp@gmail.com','0914749064','Quy Nhon','2004-07-01','Usopp','123');
 INSERT INTO Users VALUES ('SE181675','Franky','franky@gmail.com','0914749064','Quy Nhon','2004-07-01','Franky','123');
+INSERT INTO Users VALUES ('SE181676','Franky','franky@gmail.com','0914749064','Quy Nhon','2004-07-01','Franky','123');
 -- 
 INSERT INTO Staff VALUES ('00000000','Sanji','sanj@gmail.com','0911290070','Quy Nhon','1990-07-02','Sanji','123');
 INSERT INTO Staff VALUES ('00000001','Robin','robin@gmail.com','0911290070','Quy Nhon','1990-07-02','Robin','123');
@@ -74,6 +75,7 @@ INSERT INTO Publishers VALUES ('NXB000','NXB Dong Nai','Dongnai123@gmail.com','1
 INSERT INTO Publishers VALUES ('NXB001','NXB Hai Tac','haitac@gmail.com','1234567890','Ho Chi Minh');
 INSERT INTO Publishers VALUES ('NXB002','NXB Hai Quan','haiquan@gmail.com','1234567890','Ho Chi Minh');
 INSERT INTO Publishers VALUES ('NXB003','NXB Quan Cach Mang','quancachmang@gmail.com','1234567890','Ho Chi Minh');
+
 --
 INSERT INTO Books VALUES ('ISBN000000','De men phieu luu ki','1','To Hoai','Truyen ngan',5000,'NXB000');
 INSERT INTO Books VALUES ('ISBN000001','Thuyen truong','1','To Hoai','Truyen ngan',5000,'NXB001');
@@ -81,6 +83,7 @@ INSERT INTO Books VALUES ('ISBN000002','Kiem si','1','To Hoai','Truyen ngan',500
 INSERT INTO Books VALUES ('ISBN000003','Hoa tieu','1','To Hoai','Truyen ngan',5000,'NXB001');
 INSERT INTO Books VALUES ('ISBN000004','Dau bep','1','To Hoai','Truyen ngan',5000,'NXB001');
 INSERT INTO Books VALUES ('ISBN000005','Dau bep','1','To Hoai','Truyen ngan',5000,'NXB001');
+INSERT INTO Books VALUES ('ISBN000006','Dau bep','1','To Hoai','Truyen ngan',5000,'NXB001');
 --
 INSERT INTO Reports VALUES ('SE181672','ISBN000000',CURDATE(),ADDDATE(CURDATE(), INTERVAL 10 DAY));
 INSERT INTO Reports VALUES ('SE181671','ISBN000002',CURDATE(),ADDDATE(CURDATE(), INTERVAL 10 DAY));
@@ -112,7 +115,8 @@ WHEN EXISTS (SELECT * FROM Reports WHERE ISBN= Books.ISBN) = 0 THEN 'Available'
 WHEN EXISTS (SELECT * FROM Reports WHERE ISBN= Books.ISBN) = 1 THEN 'Not Available'
 END AS isBorrow 
 FROM Books WHERE ISBN= 'ISBN000001' ORDER BY ISBN;
--- 
+-- alter
+SELECT * FROM Books WHERE Author = 'To Hoai';
    SELECT ISBN, Title, Edition, Author, Category, Price,
          CASE
          WHEN EXISTS (SELECT * FROM Reports WHERE ISBN= Books.ISBN) = 0 THEN
@@ -203,5 +207,14 @@ SELECT * FROM Staff WHERE username ='Sanji' ;
 
 -- SELECT * FROM Staff WHERE username = 'Sanji' AND pass = '123';
 SELECT * FROM Staff WHERE username = 'Sanji' AND pass = '123';
-SELECT * FROM Staff WHERE StaffID = '00000000';
+SELECT * FROM Staff;
 SELECT * FROM Users WHERE UserID = 'SE181672';
+SELECT UserID, Name, Email, Phone, Address, DOB FROM Users WHERE UserID = 'SE181672';
+SELECT * FROM Users CROSS JOIN Staff WHERE  Staff.username = 'Robin';
+SELECT * FROM Reports WHERE UserID = 'SE181672';
+SELECT CASE
+    WHEN Reports.date_return < CURDATE() THEN 1000* DATEDIFF( Reports.date_return,CURDATE()) + Books.Price
+    WHEN Reports.date_return >= CURDATE() THEN Books.Price
+END AS Total_Fee FROM Reports INNER JOIN Books ON Reports.ISBN = Books.ISBN
+WHERE Reports.ISBN = 'ISBN000000' ;
+DELETE FROM Reports WHERE ISBN = 'ISBN000005';

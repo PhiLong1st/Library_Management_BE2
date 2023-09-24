@@ -1,11 +1,22 @@
 package controller;
 
 import model.*;
-import controller.*;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
 
 public class UPDATE {
     inforInput input = new inforInput();
     SELECT select = new SELECT();
+    String url = "jdbc:mysql://localhost:3306/Library_Management_System";
+    String database_username = "root";
+    String database_password = "123456";
+    TOOL tool = new TOOL();
+    Scanner sc = new Scanner(System.in);
 
     public void Update_User(String UserID_String) {
         String UserID, Name, Email, Phone, Address, DOB;
@@ -35,18 +46,39 @@ public class UPDATE {
         DOB = input.DOBInput();
         //
         //
-        /*
-         * UPDATE Users
-         * SET UserID = 'SE181670', Name = 'Luffy', Email = 'luffy@gmail.com', Phone =
-         * '0914749064', Address = 'Quy Nhon', DOB ='2004-07-01', username = 'Luffy',
-         * pass ='123'
-         * WHERE UserID = 'SE181670' ;
-         */
+
+        // UPDATE Users
+        // SET UserID = 'SE181670', Name = 'Luffy', Email = 'luffy@gmail.com', Phone =
+        // '0914749064', Address = 'Quy Nhon', DOB ='2004-07-01'
+        // WHERE UserID = 'SE181670' ;
+
         //
+        try {
+            Connection connection = DriverManager.getConnection(url, database_username, database_password);
+            Statement statement = connection.createStatement();
+            String sql = " UPDATE Users SET UserID = ?, Name = ?, Email = ?, Phone = ?, Address = ?, DOB = ? WHERE UserID = ? ;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, UserID);
+            preparedStatement.setString(2, Name);
+            preparedStatement.setString(3, Email);
+            preparedStatement.setString(4, Phone);
+            preparedStatement.setString(5, Address);
+            preparedStatement.setString(6, DOB);
+            preparedStatement.setString(7, UserID_String);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Update successfully!!!");
+                tool.delay(2000);
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // sc.nextLine();
     }
 
     public void Update_Book(String ISBN_String) {
-        System.out.println("Update_Book");
         String ISBN, Title, Edition, Author, Category, PublisherID;
         int Price;
         boolean isExist = false;
@@ -83,10 +115,33 @@ public class UPDATE {
          * Hoai',Category = 'Truyen ngan', Price = 5000, PublisherID= 'NXB001'
          * WHERE ISBN= 'ISBN000001';
          */
+        try {
+            Connection connection = DriverManager.getConnection(url, database_username, database_password);
+            Statement statement = connection.createStatement();
+            String sql = " UPDATE Books SET ISBN = ?, Title = ?, Edition = ?, Author = ?, Category = ?, Price = ?, PublisherID = ? WHERE ISBN = ? ;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, ISBN);
+            preparedStatement.setString(2, Title);
+            preparedStatement.setString(3, Edition);
+            preparedStatement.setString(4, Author);
+            preparedStatement.setString(5, Category);
+            preparedStatement.setInt(6, Price);
+            preparedStatement.setString(7, PublisherID);
+            preparedStatement.setString(8, ISBN_String);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Update successfully!!!");
+                tool.delay(2000);
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // sc.nextLine();
     }
 
     public void Update_Publisher(String PublisherID_String) {
-        System.out.println("Update_Publisher");
         String PublisherID, Name, Email, Phone, Address;
         boolean isExist = false;
         System.out.println("\t\t\tPublisher'S INFORMATION ");
@@ -110,5 +165,27 @@ public class UPDATE {
         Phone = input.PhoneInput();
         System.out.print("Enter Address: ");
         Address = input.addressInput();
+        try {
+            Connection connection = DriverManager.getConnection(url, database_username, database_password);
+            Statement statement = connection.createStatement();
+            String sql = " UPDATE Publishers SET PublisherID = ?, Name = ?, Email = ?, Phone = ?, Address = ? WHERE PublisherID = ? ;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, PublisherID);
+            preparedStatement.setString(2, Name);
+            preparedStatement.setString(3, Email);
+            preparedStatement.setString(4, Phone);
+            preparedStatement.setString(5, Address);
+            preparedStatement.setString(6, PublisherID_String);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Update successfully!!!");
+                tool.delay(2000);
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // sc.nextLine();
     }
 }

@@ -1,5 +1,10 @@
 package controller;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 
 import model.*;
@@ -9,6 +14,9 @@ public class DELETE {
     SELECT select = new SELECT();
     Scanner sc = new Scanner(System.in);
     TOOL tool = new TOOL();
+    String url = "jdbc:mysql://localhost:3306/Library_Management_System";
+    String database_username = "root";
+    String database_password = "123456";
 
     public void Delete_User() {
         String UserID;
@@ -19,15 +27,32 @@ public class DELETE {
             isExist = select.UserID_isExist(UserID);
             if (!isExist) {
                 System.out.println("UserID is not exists!!!");
+                tool.delay(2000);
+
             }
         } while (!isExist);
         if (select.isBorrowingBook(UserID)) {
             System.out.println("Cannot delete because this user is borrowing book!!!");
+            tool.delay(2000);
+
         } else {
             //
-            //
-            System.out.println("Delete successfully!!!");
-            tool.delay(1000);
+            try {
+                Connection connection = DriverManager.getConnection(url, database_username, database_password);
+                Statement statement = connection.createStatement();
+                String sql = " DELETE FROM Users WHERE UserID = ?;";
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, UserID);
+                int rowsAffected = preparedStatement.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Delete book successfully!!!");
+                }
+                statement.close();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            tool.delay(2000);
         }
     }
 
@@ -40,16 +65,31 @@ public class DELETE {
             isExist = select.ISBN_isExist(ISBN);
             if (!isExist) {
                 System.out.println("ISBN is not exists!!!");
+                tool.delay(2000);
+
             }
         } while (!isExist);
         if (select.isBorrowed(ISBN)) {
             System.out.println("Cannot delete because this book is being borrowed!!!");
-        } else {
-            //
-            //
-            System.out.println("Delete successfully!!!");
-            tool.delay(1000);
+            tool.delay(2000);
 
+        } else {
+            try {
+                Connection connection = DriverManager.getConnection(url, database_username, database_password);
+                Statement statement = connection.createStatement();
+                String sql = " DELETE FROM Books WHERE ISBN = ?;";
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, ISBN);
+                int rowsAffected = preparedStatement.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Delete book successfully!!!");
+                }
+                statement.close();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            tool.delay(2000);
         }
     }
 
@@ -62,16 +102,51 @@ public class DELETE {
             isExist = select.PublisherID_isExist(PublisherID);
             if (!isExist) {
                 System.out.println("PublisherID is not exists!!!");
+                tool.delay(2000);
             }
         } while (!isExist);
         if (select.isPublisingBook(PublisherID)) {
             System.out.println("Cannot delete because this publisher is supplying book!!!");
+            tool.delay(2000);
         } else {
             //
-            //
-            System.out.println("Delete successfully!!!");
-            tool.delay(1000);
-
+            try {
+                Connection connection = DriverManager.getConnection(url, database_username, database_password);
+                Statement statement = connection.createStatement();
+                String sql = " DELETE FROM Publishers WHERE PublisherID = ?;";
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, PublisherID);
+                int rowsAffected = preparedStatement.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Delete book successfully!!!");
+                }
+                statement.close();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            tool.delay(2000);
         }
+    }
+
+    public void Return_Book(String ISBN_String) {
+        System.out.println("Total fee for this book is: " + select.getFee(ISBN_String));
+        try {
+            Connection connection = DriverManager.getConnection(url, database_username, database_password);
+            Statement statement = connection.createStatement();
+            String sql = " DELETE FROM Reports WHERE ISBN = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, ISBN_String);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Return book successfully!!!");
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        tool.delay(2000);
+        // sc.nextLine();
     }
 }

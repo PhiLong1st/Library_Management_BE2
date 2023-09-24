@@ -12,11 +12,13 @@ public class Menu {
     UPDATE update = new UPDATE();
     TOOL tool = new TOOL();
     Staff_Menu staff_menu = new Staff_Menu();
+    User_Menu user_menu = new User_Menu();
 
     // tool
     //
+    String username, pass, type;
+
     public boolean Login() {
-        String username, pass, type;
         SELECT check = new SELECT();
         boolean isExists;
         do {
@@ -38,53 +40,6 @@ public class Menu {
         return type.equalsIgnoreCase("admin");
     }
 
-    public void SearchBookPage() {
-        int choice;
-        do {
-            tool.clearScreen();
-            System.out.print("\n\n\t\t\t\t\tLIBRARY MANAGEMENT SYSTEM\n");
-            System.out.print("\t\t\t\t\t-------------------------\n");
-            System.out.print("\t\t\t\t\t\t  USER\n");
-            System.out.print("\t\t\t\t\t-------------------------\n");
-            System.out.print("\n\t\t\t\t\t\tSEARCH BOOK ");
-            System.out.print("\n\t\t\t\t\t1. ISBN ");
-            System.out.print("\n\t\t\t\t\t2. Author ");
-            System.out.print("\n\t\t\t\t\t3. Category");
-            System.out.print("\n\t\t\t\t\t4. Publisher");
-            System.out.print("\n\t\t\t\t\t5. Title");
-            System.out.print("\n\t\t\t\t\t6. Back");
-            choice = input.getChoice(1, 6);
-            switch (choice) {
-                case 1: {
-                    System.out.print("Enter ISBN: ");
-                    select.SearchBook_ISBN(input.ISBNInput());
-                    break;
-                }
-                case 2: {
-                    select.SearchBook_Author();
-                    tool.delay(1000);
-                    break;
-                }
-                case 3: {
-                    select.SearchBook_Category();
-                    tool.delay(1000);
-                    break;
-                }
-                case 4: {
-                    select.SearchBook_Publisher();
-                    tool.delay(1000);
-                    break;
-                }
-                case 5: {
-                    select.SearchBook_Title();
-                    tool.delay(1000);
-                    break;
-                }
-            }
-        } while (choice != 6);
-
-    }
-
     public void UserHomePage() {
         int choice;
         do {
@@ -101,27 +56,18 @@ public class Menu {
             choice = input.getChoice(1, 4);
             switch (choice) {
                 case 1: {
-                    SearchBookPage();
+                    user_menu.SearchBookPage();
                     break;
                 }
                 case 2: {
-                    boolean exist = true;
-                    String UserID;
-                    do {
-                        System.out.print("Enter UserID: ");
-                        UserID = input.UserIDInput();
-                        exist = select.UserID_isExist(UserID);
-                        if (!exist) {
-                            System.out.println("UserID is not exist!!!");
-                        }
-                    } while (!exist);
-                    update.Update_User(UserID);
+                    update.Update_User(select.get_UserID(username));
                     System.out.println("Update successfully!!!");
                     tool.delay(1000);
                     break;
                 }
                 case 3: {
-                    select.List_borrowing_book();
+                    // System.out.println(username);
+                    select.List_borrowing_book(select.get_UserID(username));
                     tool.delay(1000);
                     break;
                 }

@@ -1,5 +1,10 @@
 package controller;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 import model.*;
@@ -8,6 +13,10 @@ public class INSERT {
     inforInput input = new inforInput();
     SELECT select = new SELECT();
     Scanner sc = new Scanner(System.in);
+    String url = "jdbc:mysql://localhost:3306/Library_Management_System";
+    String database_username = "root";
+    String database_password = "123456";
+    TOOL tool = new TOOL();
 
     public void Create_User() {
         String UserID, Name, Email, Phone, Address, DOB, username, pass;
@@ -35,7 +44,7 @@ public class INSERT {
         System.out.print("Enter Username: ");
         do {
             username = sc.nextLine();
-            isExist = select.Username_isExist(username, "User");
+            isExist = select.Username_isExist(username, "User") | select.Username_isExist(username, "Admin");
             if (isExist) {
                 System.out.println("Username is exists!!!");
             }
@@ -47,6 +56,33 @@ public class INSERT {
         // ('SE181670','Luffy','luffy@gmail.com','0914749064','Quy
         // Nhon','2004-07-01','Luffy','123');
         //
+        // System.out.println(UserID + Name + Email + Phone + Address + DOB + username +
+        // pass);
+        try {
+            Connection connection = DriverManager.getConnection(url, database_username, database_password);
+            Statement statement = connection.createStatement();
+            String sql = "INSERT INTO Users VALUES (?,?,?,?,?,?,?,?);";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, UserID);
+            preparedStatement.setString(2, Name);
+            preparedStatement.setString(3, Email);
+            preparedStatement.setString(4, Phone);
+            preparedStatement.setString(5, Address);
+            preparedStatement.setString(6, DOB);
+            preparedStatement.setString(7, username);
+            preparedStatement.setString(8, pass);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Create successfully!!!");
+                tool.delay(2000);
+            }
+
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // sc.nextLine();
     }
 
     public void Create_Book() {
@@ -72,10 +108,38 @@ public class INSERT {
         Category = input.CategoryInput();
         System.out.print("Enter Price: ");
         Price = input.PriceInput();
+        boolean kt = false;
         do {
             System.out.print("Enter PublisherID: ");
             PublisherID = input.PublisherInput();
-        } while (!select.PublisherID_isExist(PublisherID));
+            kt = select.PublisherID_isExist(PublisherID);
+            if (!kt) {
+                System.out.println("Publisher is not exists!!!");
+            }
+        } while (!kt);
+        try {
+            Connection connection = DriverManager.getConnection(url, database_username, database_password);
+            Statement statement = connection.createStatement();
+            String sql = "INSERT INTO Books VALUES (?,?,?,?,?,?,?);";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, ISBN);
+            preparedStatement.setString(2, Title);
+            preparedStatement.setString(3, Edition);
+            preparedStatement.setString(4, Author);
+            preparedStatement.setString(5, Category);
+            preparedStatement.setInt(6, Price);
+            preparedStatement.setString(7, PublisherID);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Create successfully!!!");
+                tool.delay(2000);
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // sc.nextLine();
     }
 
     public void Create_Publisher() {
@@ -98,13 +162,47 @@ public class INSERT {
         Phone = input.PhoneInput();
         System.out.print("Enter Address: ");
         Address = input.addressInput();
+        try {
+            Connection connection = DriverManager.getConnection(url, database_username, database_password);
+            Statement statement = connection.createStatement();
+            String sql = "INSERT INTO Publishers VALUES (?,?,?,?,?);";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, PublisherID);
+            preparedStatement.setString(2, Name);
+            preparedStatement.setString(3, Email);
+            preparedStatement.setString(4, Phone);
+            preparedStatement.setString(5, Address);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Create successfully!!!");
+                tool.delay(2000);
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void Borrow_Book(String UserID_String, String ISBN_String) {
-        System.out.println("Done!!!");
+        try {
+            Connection connection = DriverManager.getConnection(url, database_username, database_password);
+            Statement statement = connection.createStatement();
+            String sql = "INSERT INTO Reports VALUES (?,?,CURDATE(),ADDDATE(CURDATE(), INTERVAL 10 DAY) );";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, UserID_String);
+            preparedStatement.setString(2, ISBN_String);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Create successfully!!!");
+            }
+            statement.close();
+            connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        tool.delay(2000);
     }
 
-    public void Return_Book(String ISBN_String) {
-        System.out.println("aaaaDone!!!");
-    }
 }

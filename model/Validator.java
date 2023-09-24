@@ -53,10 +53,10 @@ public class Validator {
     }
 
     public boolean validDate(String date_String) {
-        Pattern DATE_Pattern = Pattern.compile("^\\d{2}-\\d{2}-\\d{4}$");
+        Pattern DATE_Pattern = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
         boolean check = true;
         if (DATE_Pattern.matcher(date_String).matches()) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             simpleDateFormat.setLenient(false);
             try {
                 simpleDateFormat.parse(date_String);

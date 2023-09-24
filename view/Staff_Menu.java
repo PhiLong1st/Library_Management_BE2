@@ -32,28 +32,31 @@ public class Staff_Menu {
             choice = input.getChoice(1, 6);
             switch (choice) {
                 case 1: {
-                    System.out.println("Enter ISBN: ");
+                    System.out.print("Enter ISBN: ");
                     select.SearchBook_ISBN(input.ISBNInput());
-                    tool.delay(1000);
                     break;
                 }
                 case 2: {
-                    select.SearchBook_Author();
+                    System.out.print("Enter Author: ");
+                    select.SearchBook_Author(input.AuthorInput());
                     tool.delay(1000);
                     break;
                 }
                 case 3: {
-                    select.SearchBook_Category();
+                    System.out.print("Enter Category: ");
+                    select.SearchBook_Category(input.CategoryInput());
                     tool.delay(1000);
                     break;
                 }
                 case 4: {
-                    select.SearchBook_Publisher();
+                    System.out.print("Enter Publisher: ");
+                    select.SearchBook_Publisher(input.PublisherInput());
                     tool.delay(1000);
                     break;
                 }
                 case 5: {
-                    select.SearchBook_Title();
+                    System.out.print("Enter Title: ");
+                    select.SearchBook_Title(input.TitleInput());
                     tool.delay(1000);
                     break;
                 }
@@ -138,7 +141,7 @@ public class Staff_Menu {
                     do {
                         System.out.print("Enter PublisherID: ");
                         PublisherID = input.PublisherInput();
-                        exist = select.ISBN_isExist(PublisherID);
+                        exist = select.PublisherID_isExist(PublisherID);
                         if (!exist) {
                             System.out.println("PublisherID is not exist!!!");
                         }
@@ -205,7 +208,7 @@ public class Staff_Menu {
                     do {
                         System.out.print("Enter PublisherID: ");
                         PublisherID = input.PublisherInput();
-                        exist = select.ISBN_isExist(PublisherID);
+                        exist = select.PublisherID_isExist(PublisherID);
                         if (!exist) {
                             System.out.println("PublisherID is not exist!!!");
                         }
@@ -288,7 +291,7 @@ public class Staff_Menu {
                     if (!select.isBorrowed(ISBN)) {
                         System.out.println("This book is not being borrowed!!!");
                     } else {
-                        create.Return_Book(ISBN);
+                        delete.Return_Book(ISBN);
                     }
                     tool.delay(1000);
                     break;
