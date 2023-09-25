@@ -12,9 +12,10 @@ import java.util.Scanner;
 public class UPDATE {
     inforInput input = new inforInput();
     SELECT select = new SELECT();
-    String url = "jdbc:mysql://localhost:3306/Library_Management_System";
-    String database_username = "root";
-    String database_password = "123456";
+    DatabaseConfig DB_Config = new DatabaseConfig();
+    String url = DB_Config.getUrl();
+    String database_username = DB_Config.getUsername();
+    String database_password = DB_Config.getPassword();
     TOOL tool = new TOOL();
     Scanner sc = new Scanner(System.in);
 
@@ -34,25 +35,16 @@ public class UPDATE {
                 }
             }
         } while (isExist);
-        System.out.print("Enter Name: ");
+        System.out.print("Enter new Name: ");
         Name = input.nameInput();
-        System.out.print("Enter Email: ");
+        System.out.print("Enter new Email: ");
         Email = input.EmailInput();
-        System.out.print("Enter Phone : ");
+        System.out.print("Enter new Phone : ");
         Phone = input.PhoneInput();
-        System.out.print("Enter Address: ");
+        System.out.print("Enter new Address: ");
         Address = input.addressInput();
-        System.out.print("Enter DOB: ");
+        System.out.print("Enter new DOB: ");
         DOB = input.DOBInput();
-        //
-        //
-
-        // UPDATE Users
-        // SET UserID = 'SE181670', Name = 'Luffy', Email = 'luffy@gmail.com', Phone =
-        // '0914749064', Address = 'Quy Nhon', DOB ='2004-07-01'
-        // WHERE UserID = 'SE181670' ;
-
-        //
         try {
             Connection connection = DriverManager.getConnection(url, database_username, database_password);
             Statement statement = connection.createStatement();
@@ -75,7 +67,6 @@ public class UPDATE {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        // sc.nextLine();
     }
 
     public void Update_Book(String ISBN_String) {
@@ -95,26 +86,20 @@ public class UPDATE {
                 }
             }
         } while (isExist);
-        System.out.print("Enter Title: ");
+        System.out.print("Enter new Title: ");
         Title = input.TitleInput();
-        System.out.print("Enter Edition: ");
+        System.out.print("Enter new Edition: ");
         Edition = input.EditionInput();
-        System.out.print("Enter Author : ");
+        System.out.print("Enter new Author : ");
         Author = input.AuthorInput();
-        System.out.print("Enter Category: ");
+        System.out.print("Enter new Category: ");
         Category = input.CategoryInput();
-        System.out.print("Enter Price: ");
+        System.out.print("Enter new Price: ");
         Price = input.PriceInput();
+        System.out.print("Enter new PublisherID: ");
         do {
-            System.out.print("Enter PublisherID: ");
             PublisherID = input.PublisherInput();
         } while (!select.PublisherID_isExist(PublisherID));
-        /*
-         * UPDATE Books
-         * SET ISBN= 'ISBN000001', Title = 'Thuyen truong', Edition = '1', Author='To
-         * Hoai',Category = 'Truyen ngan', Price = 5000, PublisherID= 'NXB001'
-         * WHERE ISBN= 'ISBN000001';
-         */
         try {
             Connection connection = DriverManager.getConnection(url, database_username, database_password);
             Statement statement = connection.createStatement();
@@ -138,7 +123,6 @@ public class UPDATE {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        // sc.nextLine();
     }
 
     public void Update_Publisher(String PublisherID_String) {
@@ -157,13 +141,13 @@ public class UPDATE {
                 }
             }
         } while (isExist);
-        System.out.print("Enter Name: ");
+        System.out.print("Enter new Name: ");
         Name = input.nameInput();
-        System.out.print("Enter Email: ");
+        System.out.print("Enter new Email: ");
         Email = input.EmailInput();
-        System.out.print("Enter Phone : ");
+        System.out.print("Enter new Phone : ");
         Phone = input.PhoneInput();
-        System.out.print("Enter Address: ");
+        System.out.print("Enter new Address: ");
         Address = input.addressInput();
         try {
             Connection connection = DriverManager.getConnection(url, database_username, database_password);
@@ -186,6 +170,5 @@ public class UPDATE {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        // sc.nextLine();
     }
 }

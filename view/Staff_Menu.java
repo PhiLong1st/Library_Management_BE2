@@ -1,9 +1,6 @@
 package view;
 
-import controller.DELETE;
-import controller.INSERT;
-import controller.SELECT;
-import controller.UPDATE;
+import controller.*;
 import model.*;
 
 public class Staff_Menu {

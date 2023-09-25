@@ -14,8 +14,6 @@ public class Menu {
     Staff_Menu staff_menu = new Staff_Menu();
     User_Menu user_menu = new User_Menu();
 
-    // tool
-    //
     String username, pass, type;
 
     public boolean Login() {

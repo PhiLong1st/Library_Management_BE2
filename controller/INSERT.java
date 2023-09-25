@@ -11,12 +11,13 @@ import model.*;
 
 public class INSERT {
     inforInput input = new inforInput();
-    SELECT select = new SELECT();
     Scanner sc = new Scanner(System.in);
-    String url = "jdbc:mysql://localhost:3306/Library_Management_System";
-    String database_username = "root";
-    String database_password = "123456";
+    DatabaseConfig DB_Config = new DatabaseConfig();
+    String url = DB_Config.getUrl();
+    String database_username = DB_Config.getUsername();
+    String database_password = DB_Config.getPassword();
     TOOL tool = new TOOL();
+    SELECT select = new SELECT();
 
     public void Create_User() {
         String UserID, Name, Email, Phone, Address, DOB, username, pass;

@@ -70,6 +70,7 @@ INSERT INTO Staff VALUES ('00000001','Robin','robin@gmail.com','0911290070','Quy
 INSERT INTO Staff VALUES ('00000002','Chopper','chopper@gmail.com','0911290070','Quy Nhon','1990-07-02','Chopper','123');
 INSERT INTO Staff VALUES ('00000003','Brook','brook@gmail.com','0911290070','Quy Nhon','1990-07-02','Brook','123');
 INSERT INTO Staff VALUES ('00000004','Jinbe','jinbe@gmail.com','0911290070','Quy Nhon','1990-07-02','Jinbe','123');
+INSERT INTO Staff VALUES ('00000005','Phong','jinbe@gmail.com','0911290070','Quy Nhon','1990-07-02','Phong','123');
 -- 
 INSERT INTO Publishers VALUES ('NXB000','NXB Dong Nai','Dongnai123@gmail.com','1234567890','Ho Chi Minh');
 INSERT INTO Publishers VALUES ('NXB001','NXB Hai Tac','haitac@gmail.com','1234567890','Ho Chi Minh');
@@ -205,7 +206,6 @@ WHERE PublisherID = 'NXB999';
 SELECT * FROM Books;
 SELECT * FROM Staff WHERE username ='Sanji' ;
 
--- SELECT * FROM Staff WHERE username = 'Sanji' AND pass = '123';
 SELECT * FROM Staff WHERE username = 'Sanji' AND pass = '123';
 SELECT * FROM Staff;
 SELECT * FROM Users WHERE UserID = 'SE181672';

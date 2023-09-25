@@ -166,6 +166,10 @@ public class inforInput {
                 System.out.println("\nWrong data type of price!");
                 sc.nextLine();
             }
+            if (price < 0) {
+                kt = false;
+                System.out.println("\nPrice must be positive!!!");
+            }
         } while (!kt);
         return price;
     }

@@ -34,6 +34,7 @@ public class User_Menu {
                 case 1: {
                     System.out.print("Enter ISBN: ");
                     select.SearchBook_ISBN(input.ISBNInput());
+                    tool.delay(1000);
                     break;
                 }
                 case 2: {
@@ -55,7 +56,7 @@ public class User_Menu {
                     break;
                 }
                 case 5: {
-                     System.out.print("Enter Title: ");
+                    System.out.print("Enter Title: ");
                     select.SearchBook_Title(input.TitleInput());
                     tool.delay(1000);
                     break;

@@ -1,6 +1,9 @@
 package controller;
 
 import java.util.*;
+
+import model.DatabaseConfig;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,9 +12,10 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 
 public class SELECT {
-    String url = "jdbc:mysql://localhost:3306/Library_Management_System";
-    String database_username = "root";
-    String database_password = "123456";
+    DatabaseConfig DB_Config = new DatabaseConfig();
+    String url = DB_Config.getUrl();
+    String database_username = DB_Config.getUsername();
+    String database_password = DB_Config.getPassword();
     Scanner sc = new Scanner(System.in);
 
     public String get_UserID(String usernameString) {
